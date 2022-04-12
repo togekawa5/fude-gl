@@ -86,24 +86,21 @@
 
 (defun hello-triangle ()
   (uiop:nest
-    (sdl2:with-init (:everything))
-    (sdl2:with-window (win :flags '(:shown :opengl)
-                           :w 800
-                           :h 600
-                           :title "Hello triangle"))
-    (sdl2:with-gl-context (context win))
+    (glfw:with-init ())
+    (glfw:with-window (:width 800
+                       :height 600
+                       :title "Hello triangle"))
+    (let ((win glfw:*window*)))
     ;; For cleanup, macro WITH-SHADER is recommended.
     (fude-gl:with-shader ()
       ;; To construct vertices.
       (fude-gl:in-vertices 'hello-triangle))
-    (sdl2:with-event-loop (:method :poll)
-      (:quit ()
-        t))
-    (:idle nil)
-    ;; To clear window, WITH-CLEAR is recomended.
-    (fude-gl:with-clear (win (:color-buffer-bit))
-      ;; To draw vertices, you can use DRAW with passing vertices name.
-      (fude-gl:draw 'hello-triangle))))
+    (loop :until (glfw:window-should-close-p)
+          do (glfw:poll-events)
+          ;; To clear window, WITH-CLEAR is recomended.
+          do (fude-gl:with-clear (win (:color-buffer-bit))
+               ;; To draw vertices, you can use DRAW with passing vertices name.
+               (fude-gl:draw 'hello-triangle)))))
 
 ;;;; UNIFORM-DEMO
 
