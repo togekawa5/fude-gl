@@ -1170,7 +1170,7 @@
        (apply #'gl:clear-color ,color)
        (gl:clear ,@(mapcar (lambda (buf) (type-assert buf 'buffer-bit)) buf*))
        ,@body
-       (sdl2:gl-swap-window ,var-win)
+       (glfw:swap-buffers ,var-win)
        (let ((,delta (- ,idle (- (get-internal-real-time) ,time))))
          (if (plusp ,delta)
              (sleep (* ,(/ 1 internal-time-units-per-second) ,delta))
@@ -1320,7 +1320,7 @@
     (gl:clear ,@buffers)
     ,@body
     (in-framebuffer nil)
-    (multiple-value-call #'gl:viewport 0 0 (sdl2:get-window-size ,win))))
+    (multiple-value-call #'gl:viewport 0 0 (glfw:get-framebuffer-size ,win))))
 
 (defmacro deframebuf (name &rest params)
   `(eval-when (:compile-toplevel :load-toplevel :execute)
@@ -1386,7 +1386,7 @@
 
 (defun ortho (win &optional (direction :bottom-up))
   (multiple-value-bind (w h)
-      (sdl2:get-window-size win)
+      (glfw:get-framebuffer-size win)
     (ecase direction
       (:top-down (3d-matrices:mortho 0 w h 0 -1 1))
       (:bottom-up (3d-matrices:mortho 0 w 0 h -1 1)))))

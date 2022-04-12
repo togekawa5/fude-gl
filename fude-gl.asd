@@ -14,7 +14,8 @@
    "uiop" ; Utilities.
    "alexandria" ; Public domain utilities.
    "cl-change-case" ; Convert lisp case to camel case.
-   "sdl2" ; Windowing support.
+   "cl-glfw3" ; Windowing support. glfw
+   "sdl2" ; Windowing support. it will be deleted
    "millet" ; Wrapper for tiny utilities.
    "check-bnf" ; BNF like macro syntax checker.
    "vecto" ; TTF rasterization.
